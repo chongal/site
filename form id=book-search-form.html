@@ -1,0 +1,33 @@
+<form id="book-search-form">
+  <input type="text" id="book-input" placeholder="Введите название книги">
+  <button type="submit">Поиск</button>
+</form>
+<div id="book-results"></div>
+
+</head>
+<body>
+    <script>
+        document.getElementById('book-search-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var bookName = document.getElementById('book-input').value;
+  fetch('https://www.googleapis.com/books/v1/volumes?q=' + bookName)
+    .then(response => response.json())
+    .then(data => displayBooks(data.items));
+});
+function displayBooks(books) {
+  var bookResults = document.getElementById('book-results');
+  bookResults.innerHTML = '';
+  books.forEach(book => {
+    var bookDiv = document.createElement('div');
+    bookDiv.textContent = book.volumeInfo.title + ' by ' + book.volumeInfo.authors[0];
+    var buyButton = document.createElement('button');
+    buyButton.textContent = 'Купить';
+    buyButton.addEventListener('click', function() {
+      
+    });
+    bookDiv.appendChild(buyButton);
+    bookResults.appendChild(bookDiv);
+  });
+}
+</body>  
+</html>
